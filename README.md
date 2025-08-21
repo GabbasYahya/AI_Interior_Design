@@ -1,230 +1,232 @@
-# 🏠 AI Interior Canvas
+# Adariz - AI Interior Design Platform
 
-> *Transforming interior design through artificial intelligence - making beautiful, personalized living spaces accessible to everyone.*
+A comprehensive AI-powered interior design platform that revolutionizes how users approach space transformation through intelligent recommendations, style analysis, and product integration.
 
-[![React](https://img.shields.io/badge/React-18.3.1-blue.svg)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.5.3-blue.svg)](https://www.typescriptlang.org/)
-[![Supabase](https://img.shields.io/badge/Supabase-Database-green.svg)](https://supabase.com/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4.11-blue.svg)](https://tailwindcss.com/)
+## 🌟 Overview
 
-## ✨ Features
+Adariz is a modern React-based web application that combines artificial intelligence with interior design expertise to provide personalized design solutions. The platform offers style quizzes, room measurements, product recommendations, and seamless integration with furniture catalogs.
 
-- 🔐 **Secure Authentication** - Multi-tab sign-in/up with profile management
-- 🏗️ **Project Management** - Create and manage multiple interior design projects
-- 📐 **3D Room Measurements** - Precise spatial data with doors, windows, and obstacles
-- 📸 **Photo Upload System** - Drag & drop with gallery and cloud storage
-- 🎨 **Style Analysis** - AI-powered quiz to determine design preferences
-- 🤖 **AI Design Generation** - Coming soon: Style-based design creation
-- 🛍️ **Product Recommendations** - Smart suggestions with pricing and links
-- ❤️ **Favorites System** - Save and organize your favorite designs
+## 🚀 Key Features
 
-## 🚀 Quick Start
+### Core Functionality
+- **AI-Powered Style Analysis**: Intelligent style quiz that determines user preferences
+- **Room Measurement Tools**: Digital measurement capture and room analysis
+- **Product Catalog Integration**: Real-time furniture API integration with advanced filtering
+- **Authentication System**: Secure user management with Supabase
+- **Responsive Design**: Mobile-first approach with modern UI/UX
 
-### Prerequisites
+### User Experience
+- **Interactive Style Quiz**: 16 design styles with visual selections
+- **Room Type Support**: Living room, bedroom, kitchen, bathroom, and more
+- **Smart Recommendations**: AI-driven product suggestions based on style and space
+- **User Dashboard**: Personalized project management and progress tracking
 
-- Node.js 18+ or Bun
-- npm, yarn, or bun package manager
-- Supabase account
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/ai-interior-canvas.git
-   cd ai-interior-canvas
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   # or
-   bun install
-   ```
-
-3. **Set up environment variables**
-   Update `.env.local` with your Supabase credentials:
-   ```env
-   VITE_SUPABASE_URL=your_supabase_project_url
-   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-   ```
-
-4. **Set up the database**
-   - Go to your Supabase dashboard
-   - Open the SQL Editor
-   - Copy and run the SQL from `database-schema.sql`
-
-5. **Start the development server**
-   ```bash
-   npm run dev
-   # or
-   bun dev
-   ```
-
-6. **Open your browser**
-   Navigate to `http://localhost:8080`
-
-## 🛠️ Tech Stack
+## 🛠️ Technology Stack
 
 ### Frontend
-- **React 18.3.1** - Modern UI library with hooks
+- **React 18.3.1** - Modern React with Hooks and Context API
 - **TypeScript** - Type-safe development
-- **Vite** - Fast build tool and dev server
+- **Vite** - Fast build tool and development server
 - **Tailwind CSS** - Utility-first CSS framework
-- **shadcn/ui** - Beautiful, accessible UI components
-- **Lucide React** - Consistent iconography
+- **React Router** - Client-side routing
 
-### Backend
-- **Supabase** - PostgreSQL database with real-time features
-- **Supabase Auth** - Authentication and user management
-- **Supabase Storage** - File storage and CDN
-- **Row Level Security** - Database-level security policies
+### Backend & Services
+- **Supabase** - Authentication, database, and real-time features
+- **Furniture API** - External product catalog integration
+- **Real-time Updates** - Hot module replacement for development
+
+### UI Components
+- **Radix UI** - Accessible component primitives
+- **Lucide React** - Modern icon library
+- **Custom Components** - Tailored UI elements for design consistency
 
 ## 📁 Project Structure
 
 ```
 src/
-├── components/          # Reusable UI components
-│   ├── ui/             # shadcn/ui components
-│   ├── layout/         # Layout components (Header, Footer)
-│   ├── AuthComponent.tsx
-│   ├── UserProfileComponent.tsx
-│   └── RoomPhotoUpload.tsx
-├── hooks/              # Custom React hooks
-│   ├── useSupabaseAuth.ts
-│   └── use-toast.ts
-├── integrations/       # External service integrations
-│   └── supabase/       # Supabase client and types
-├── lib/                # Utility functions
-├── pages/              # Page components
-│   ├── Dashboard.tsx
-│   ├── Home.tsx
-│   ├── Measurements.tsx
-│   └── StyleQuiz.tsx
-└── App.tsx             # Main application component
+├── components/
+│   ├── ui/                 # Reusable UI components
+│   ├── layout/             # Layout components (Header, Footer)
+│   └── ProductCatalog.tsx  # Product display component
+├── pages/
+│   ├── Home.tsx           # Landing page
+│   ├── StyleQuiz.tsx      # Style assessment
+│   ├── Measurements.tsx   # Room measurement
+│   ├── Dashboard.tsx      # User dashboard
+│   ├── Products.tsx       # Product catalog
+│   └── Profile.tsx        # User profile
+├── services/
+│   ├── furnitureAPIService.ts     # External API integration
+│   └── productCatalogService.ts   # Product management
+├── contexts/
+│   └── AuthContext.tsx    # Authentication state management
+└── integrations/
+    └── supabase/          # Database and auth configuration
+```
+
+## 🔧 Installation & Setup
+
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
+- Supabase account (for database and authentication)
+
+### Environment Setup
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Configure environment variables:
+   ```bash
+   cp .env.example .env
+   ```
+4. Update `.env` with your Supabase credentials:
+   ```
+   VITE_SUPABASE_URL=your_supabase_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
+
+### Development
+```bash
+npm run dev
+```
+Access the application at `http://localhost:8080`
+
+### Production Build
+```bash
+npm run build
 ```
 
 ## 🗄️ Database Schema
 
-The application uses 8 core tables:
+### Core Tables
+- **profiles** - User profile information
+- **projects** - User design projects
+- **style_quiz_results** - Quiz outcomes and preferences
+- **room_measurements** - Spatial data and dimensions
+- **products** - Product catalog (if using local storage)
 
-- **`profiles`** - User accounts and preferences
-- **`projects`** - Interior design projects
-- **`room_measurements`** - 3D spatial data
-- **`room_photos`** - Image metadata and storage
-- **`ai_designs`** - AI-generated design results
-- **`style_quiz_results`** - User style preferences
-- **`favorites`** - User favorites system
-- **`product_recommendations`** - Shopping suggestions
+## 🔌 API Integration
 
-See `database-schema.sql` for the complete schema with relationships and security policies.
+### Furniture API
+The platform integrates with external furniture APIs for real-time product data:
+- **Product Search** - Advanced filtering by style, price, category
+- **Recommendations** - AI-driven product suggestions
+- **Real-time Inventory** - Stock status and availability
+- **Rate Limiting** - Intelligent request management
 
-## 🎨 Usage Examples
+## 🎨 Design System
+
+### Style Guidelines
+- **Modern Aesthetic** - Clean, minimalist interface
+- **Color Palette** - Emerald and blue gradients with neutral grays
+- **Typography** - System fonts with clear hierarchy
+- **Responsive Design** - Mobile-first with desktop optimization
+
+### Component Library
+- Consistent styling across all components
+- Accessible design patterns
+- Reusable component architecture
+- Theme-aware styling system
+
+## 🚦 Getting Started (Manager Guide)
+
+### Phase 1: Initial Setup (Week 1)
+1. Set up development environment
+2. Configure Supabase database
+3. Test authentication flow
+4. Verify API integrations
+
+### Phase 2: Core Features (Weeks 2-3)
+1. Style quiz functionality
+2. Room measurement tools
+3. Product catalog integration
+4. User dashboard implementation
+
+### Phase 3: Enhancement (Week 4)
+1. Advanced filtering
+2. User experience optimization
+3. Performance improvements
+4. Testing and deployment
+
+## 🔮 Future Development Roadmap
+
+### Immediate Enhancements
+- **AI Image Recognition** - Upload room photos for analysis
+- **3D Visualization** - Room rendering with selected products
+- **Social Features** - Share designs and get feedback
+- **Advanced Analytics** - User behavior and preference tracking
+
+### Long-term Features
+- **AR Integration** - Augmented reality product placement
+- **Professional Services** - Connect with interior designers
+- **E-commerce Integration** - Direct product purchasing
+- **Mobile Application** - Native iOS/Android apps
+
+## 📊 Performance & Scalability
+
+### Current Metrics
+- **Build Time**: ~560ms (Vite)
+- **Bundle Size**: Optimized for web performance
+- **API Rate Limits**: 500 requests/day (development)
+- **Database**: Serverless scaling with Supabase
+
+### Optimization Strategies
+- Code splitting and lazy loading
+- Image optimization and CDN usage
+- Caching strategies for API responses
+- Progressive web app capabilities
+
+## 🔒 Security & Privacy
 
 ### Authentication
-```tsx
-import { useSupabaseAuth } from '@/hooks/useSupabaseAuth';
+- Secure JWT-based authentication
+- Password hashing and encryption
+- Email verification workflow
+- Session management
 
-function MyComponent() {
-  const { user, profile, signOut } = useSupabaseAuth();
-  
-  if (!user) return <AuthComponent />;
-  
-  return <div>Welcome {profile?.full_name}!</div>;
-}
-```
+### Data Protection
+- GDPR compliance considerations
+- Secure API endpoints
+- Data encryption in transit and at rest
+- User consent management
 
-### Photo Upload
-```tsx
-import { RoomPhotoUpload } from '@/components/RoomPhotoUpload';
+## 📈 Business Value
 
-function ProjectPage() {
-  return (
-    <RoomPhotoUpload 
-      projectId="project-uuid"
-      onPhotoUploaded={(photo) => console.log('Uploaded:', photo)}
-    />
-  );
-}
-```
+### User Benefits
+- **Time Savings** - Rapid design decision-making
+- **Cost Efficiency** - Avoid expensive design mistakes
+- **Personalization** - Tailored recommendations
+- **Convenience** - All-in-one design platform
 
-## 📖 Documentation
+### Business Metrics
+- **User Engagement** - Style quiz completion rates
+- **Conversion** - Project creation and completion
+- **Retention** - Return user analytics
+- **Revenue** - Product affiliate commissions
 
-- **[Project Description](PROJECT_DESCRIPTION.md)** - Complete feature overview
-- **[Executive Summary](EXECUTIVE_SUMMARY.md)** - Business and technical summary
-- **[Architecture](ARCHITECTURE.md)** - Detailed system architecture
-- **[Class Diagrams](CLASS_DIAGRAM_DOCS.md)** - UML diagrams and relationships
-- **[Setup Guide](SETUP_COMPLETE.md)** - Implementation completion status
+## 🤝 Contributing
+
+### Development Workflow
+1. Create feature branches from `main`
+2. Follow TypeScript and ESLint conventions
+3. Write comprehensive tests
+4. Submit pull requests with detailed descriptions
+
+### Code Standards
+- TypeScript strict mode
+- ESLint configuration
+- Prettier code formatting
+- Component documentation
+
+## 📞 Support & Contact
+
+For technical questions or business inquiries:
+- **Email**: contact@adariz.com
+- **Phone**: +33 1 23 45 67 89
+- **Location**: Paris, France
 
 ---
 
-## Project Development Info
-
-**Lovable Project URL**: https://lovable.dev/projects/ec94d9fc-46eb-47cf-80fb-c8fff236ffd4
-
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/ec94d9fc-46eb-47cf-80fb-c8fff236ffd4) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/ec94d9fc-46eb-47cf-80fb-c8fff236ffd4) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+**Adariz** - Transforming spaces with artificial intelligence. © 2025 All rights reserved.

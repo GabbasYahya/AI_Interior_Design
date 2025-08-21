@@ -1,5 +1,12 @@
-// Furniture API Service - Complete Integration
-// Real API implementation using https://furniture-api.fly.dev
+/**
+ * Furniture API Service - External Product Integration
+ * 
+ * Manages integration with external furniture APIs for real-time product data
+ * Handles rate limiting, caching, and product recommendations
+ * 
+ * @author Adariz Team
+ * @version 1.0.0
+ */
 
 import { supabase } from '../integrations/supabase/client';
 

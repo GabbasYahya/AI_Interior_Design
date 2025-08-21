@@ -1,5 +1,12 @@
-// Product Catalog Service for Adariz Integration
-// Handles product synchronization and smart recommendations
+/**
+ * Product Catalog Service for Adariz Platform
+ * 
+ * Handles product synchronization, smart recommendations, and catalog management
+ * Integrates with external APIs and manages local product database
+ * 
+ * @author Adariz Team
+ * @version 1.0.0
+ */
 
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from '../integrations/supabase/types';
