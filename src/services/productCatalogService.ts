@@ -83,8 +83,6 @@ export class ProductCatalogService implements ProductRecommendationEngine {
     let failed = 0;
 
     try {
-      console.log('Starting Adariz product sync...');
-      
       // Fetch products from Adariz API
       const adarizProducts = await this.fetchAdarizCatalog();
       
@@ -98,7 +96,6 @@ export class ProductCatalogService implements ProductRecommendationEngine {
         }
       }
 
-      console.log(`Sync complete: ${success} successful, ${failed} failed`);
       return { success, failed };
 
     } catch (error) {

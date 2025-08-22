@@ -36,7 +36,6 @@ const Dashboard = () => {
     
     if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_URL === 'your-supabase-url' || SUPABASE_ANON_KEY === 'your-supabase-anon-key') {
       // Demo mode - load sample data immediately
-      console.log('Running in demo mode - Supabase not configured');
       clearTimeout(timeout);
       loadDemoData();
       return;

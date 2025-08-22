@@ -33,15 +33,11 @@ const Measurements = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Sauvegarde des mesures et navigation vers le quiz de style
-    console.log("Measurements:", measurements);
-    console.log("Photo:", photo);
-    navigate('/style-quiz');
-  };
-
-  return (
+  const handleSubmit = () => {
+    navigate('/dashboard', { 
+      state: { measurements, photo, roomName, additionalNotes } 
+    });
+  };  return (
     <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-2xl mx-auto">

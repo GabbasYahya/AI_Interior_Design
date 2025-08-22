@@ -66,7 +66,6 @@ const RoomRedesign = () => {
     }
     
     // Process the redesign
-    console.log("Redesign data:", { photo, roomType, designStyle });
     
     // Navigate to results or dashboard
     navigate('/dashboard');

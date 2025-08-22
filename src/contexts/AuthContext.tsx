@@ -51,7 +51,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         console.warn('🔧 Supabase environment variables not configured. Running in demo mode.');
         return false;
       }
-      console.log('✅ Supabase configuration found');
       return true;
     } catch (error) {
       console.warn('⚠️ Supabase configuration error:', error);
@@ -80,12 +79,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     let mounted = true;
-    
-    console.log('🚀 Starting auth initialization...');
 
     const initializeAuth = async () => {
       if (!checkSupabaseConfig()) {
-        console.log('📱 Demo mode: Setting initialized to true');
         if (mounted) {
           setLoading(false);
           setUser(null);
@@ -97,15 +93,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       // Get initial session with better error handling and retries
       try {
-        console.log('🔍 Checking for existing session...');
-        
         // Add a small delay to ensure Supabase client is fully initialized
         await new Promise(resolve => setTimeout(resolve, 100));
         
         const { data: { session }, error } = await supabase.auth.getSession();
         
         if (error) {
-          console.error('❌ Error getting session:', error);
+          console.error('Error getting session:', error);
           if (mounted) {
             setUser(null);
             setProfile(null);
@@ -115,26 +109,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           return;
         }
 
-        console.log('📋 Initial session check result:', {
-          hasSession: !!session,
-          userEmail: session?.user?.email || 'No user',
-          expiresAt: session?.expires_at ? new Date(session.expires_at * 1000).toLocaleString() : 'No expiry'
-        });
-
         if (mounted) {
           setUser(session?.user ?? null);
           if (session?.user) {
-            console.log('👤 Fetching user profile...');
             await fetchProfile(session.user.id);
           } else {
             setProfile(null);
           }
           setLoading(false);
           setInitialized(true);
-          console.log('✅ Auth initialization complete');
         }
       } catch (error) {
-        console.error('💥 Error in getInitialSession:', error);
+        console.error('Error in getInitialSession:', error);
         if (mounted) {
           setUser(null);
           setProfile(null);
@@ -147,7 +133,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Add a maximum timeout to ensure initialization always completes
     const timeoutId = setTimeout(() => {
       if (mounted && !initialized) {
-        console.warn('⏰ Auth initialization timeout - forcing completion');
+        console.warn('Auth initialization timeout - forcing completion');
         setLoading(false);
         setInitialized(true);
       }
@@ -161,27 +147,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Listen for auth changes
       const { data: { subscription: authSubscription } } = supabase.auth.onAuthStateChange(
         async (event, session) => {
-          console.log('🔄 Auth state changed:', event, {
-            userEmail: session?.user?.email || 'No user',
-            mounted,
-            initialized
-          });
-          
           if (!mounted) return;
 
           // Handle different auth events
           if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
-            console.log('✅ User signed in or token refreshed');
             setUser(session?.user ?? null);
             if (session?.user) {
               await fetchProfile(session.user.id);
             }
           } else if (event === 'SIGNED_OUT') {
-            console.log('👋 User signed out');
             setUser(null);
             setProfile(null);
           } else if (event === 'INITIAL_SESSION') {
-            console.log('🚀 Initial session detected');
             setUser(session?.user ?? null);
             if (session?.user) {
               await fetchProfile(session.user.id);

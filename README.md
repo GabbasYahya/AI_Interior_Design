@@ -1,232 +1,232 @@
-# Adariz - AI Interior Design Platform
+# Adariz - Plateforme de Design Intérieur IA
 
-A comprehensive AI-powered interior design platform that revolutionizes how users approach space transformation through intelligent recommendations, style analysis, and product integration.
+Une plateforme complète de design intérieur alimentée par l'IA qui révolutionne la façon dont les utilisateurs abordent la transformation d'espaces grâce à des recommandations intelligentes, une analyse de style et une intégration de produits.
 
-## 🌟 Overview
+## 🌟 Aperçu
 
-Adariz is a modern React-based web application that combines artificial intelligence with interior design expertise to provide personalized design solutions. The platform offers style quizzes, room measurements, product recommendations, and seamless integration with furniture catalogs.
+Adariz est une application web moderne basée sur React qui combine l'intelligence artificielle avec l'expertise en design intérieur pour fournir des solutions de design personnalisées. La plateforme propose des quiz de style, des mesures de pièces, des recommandations de produits et une intégration transparente avec les catalogues de meubles.
 
-## 🚀 Key Features
+## 🚀 Fonctionnalités Clés
 
-### Core Functionality
-- **AI-Powered Style Analysis**: Intelligent style quiz that determines user preferences
-- **Room Measurement Tools**: Digital measurement capture and room analysis
-- **Product Catalog Integration**: Real-time furniture API integration with advanced filtering
-- **Authentication System**: Secure user management with Supabase
-- **Responsive Design**: Mobile-first approach with modern UI/UX
+### Fonctionnalités Principales
+- **Analyse de Style IA** : Quiz de style intelligent qui détermine les préférences utilisateur
+- **Outils de Mesure de Pièce** : Capture de mesures numériques et analyse de pièce
+- **Intégration Catalogue Produits** : Intégration API meubles en temps réel avec filtrage avancé
+- **Système d'Authentification** : Gestion sécurisée des utilisateurs avec Supabase
+- **Design Responsive** : Approche mobile-first avec UI/UX moderne
 
-### User Experience
-- **Interactive Style Quiz**: 16 design styles with visual selections
-- **Room Type Support**: Living room, bedroom, kitchen, bathroom, and more
-- **Smart Recommendations**: AI-driven product suggestions based on style and space
-- **User Dashboard**: Personalized project management and progress tracking
+### Expérience Utilisateur
+- **Quiz de Style Interactif** : 16 styles de design avec sélections visuelles
+- **Support Types de Pièce** : Salon, chambre, cuisine, salle de bain, et plus
+- **Recommandations Intelligentes** : Suggestions de produits basées sur l'IA selon le style et l'espace
+- **Tableau de Bord Utilisateur** : Gestion de projets personnalisée et suivi des progrès
 
-## 🛠️ Technology Stack
+## 🛠️ Stack Technologique
 
 ### Frontend
-- **React 18.3.1** - Modern React with Hooks and Context API
-- **TypeScript** - Type-safe development
-- **Vite** - Fast build tool and development server
-- **Tailwind CSS** - Utility-first CSS framework
-- **React Router** - Client-side routing
+- **React 18.3.1** - React moderne avec Hooks et Context API
+- **TypeScript** - Développement type-safe
+- **Vite** - Outil de build rapide et serveur de développement
+- **Tailwind CSS** - Framework CSS utility-first
+- **React Router** - Routage côté client
 
 ### Backend & Services
-- **Supabase** - Authentication, database, and real-time features
-- **Furniture API** - External product catalog integration
-- **Real-time Updates** - Hot module replacement for development
+- **Supabase** - Authentification, base de données et fonctionnalités temps réel
+- **API Meubles** - Intégration catalogue produits externe
+- **Mises à jour temps réel** - Hot module replacement pour le développement
 
-### UI Components
-- **Radix UI** - Accessible component primitives
-- **Lucide React** - Modern icon library
-- **Custom Components** - Tailored UI elements for design consistency
+### Composants UI
+- **Radix UI** - Primitives de composants accessibles
+- **Lucide React** - Bibliothèque d'icônes moderne
+- **Composants Personnalisés** - Éléments UI adaptés pour la cohérence du design
 
-## 📁 Project Structure
+## 📁 Structure du Projet
 
 ```
 src/
 ├── components/
-│   ├── ui/                 # Reusable UI components
-│   ├── layout/             # Layout components (Header, Footer)
-│   └── ProductCatalog.tsx  # Product display component
+│   ├── ui/                 # Composants UI réutilisables
+│   ├── layout/             # Composants de mise en page (Header, Footer)
+│   └── ProductCatalog.tsx  # Composant d'affichage produits
 ├── pages/
-│   ├── Home.tsx           # Landing page
-│   ├── StyleQuiz.tsx      # Style assessment
-│   ├── Measurements.tsx   # Room measurement
-│   ├── Dashboard.tsx      # User dashboard
-│   ├── Products.tsx       # Product catalog
-│   └── Profile.tsx        # User profile
+│   ├── Home.tsx           # Page d'accueil
+│   ├── StyleQuiz.tsx      # Évaluation de style
+│   ├── Measurements.tsx   # Mesure de pièce
+│   ├── Dashboard.tsx      # Tableau de bord utilisateur
+│   ├── Products.tsx       # Catalogue produits
+│   └── Profile.tsx        # Profil utilisateur
 ├── services/
-│   ├── furnitureAPIService.ts     # External API integration
-│   └── productCatalogService.ts   # Product management
+│   ├── furnitureAPIService.ts     # Intégration API externe
+│   └── productCatalogService.ts   # Gestion des produits
 ├── contexts/
-│   └── AuthContext.tsx    # Authentication state management
+│   └── AuthContext.tsx    # Gestion état d'authentification
 └── integrations/
-    └── supabase/          # Database and auth configuration
+    └── supabase/          # Configuration base de données et auth
 ```
 
-## 🔧 Installation & Setup
+## 🔧 Installation & Configuration
 
-### Prerequisites
+### Prérequis
 - Node.js 18+ 
-- npm or yarn
-- Supabase account (for database and authentication)
+- npm ou yarn
+- Compte Supabase (pour base de données et authentification)
 
-### Environment Setup
-1. Clone the repository
-2. Install dependencies:
+### Configuration Environnement
+1. Cloner le repository
+2. Installer les dépendances :
    ```bash
    npm install
    ```
-3. Configure environment variables:
+3. Configurer les variables d'environnement :
    ```bash
    cp .env.example .env
    ```
-4. Update `.env` with your Supabase credentials:
+4. Mettre à jour `.env` avec vos identifiants Supabase :
    ```
-   VITE_SUPABASE_URL=your_supabase_url
-   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   VITE_SUPABASE_URL=votre_url_supabase
+   VITE_SUPABASE_ANON_KEY=votre_cle_anon_supabase
    ```
 
-### Development
+### Développement
 ```bash
 npm run dev
 ```
-Access the application at `http://localhost:8080`
+Accéder à l'application sur `http://localhost:8080`
 
-### Production Build
+### Build de Production
 ```bash
 npm run build
 ```
 
-## 🗄️ Database Schema
+## 🗄️ Schéma de Base de Données
 
-### Core Tables
-- **profiles** - User profile information
-- **projects** - User design projects
-- **style_quiz_results** - Quiz outcomes and preferences
-- **room_measurements** - Spatial data and dimensions
-- **products** - Product catalog (if using local storage)
+### Tables Principales
+- **profiles** - Informations profil utilisateur
+- **projects** - Projets de design utilisateur
+- **style_quiz_results** - Résultats quiz et préférences
+- **room_measurements** - Données spatiales et dimensions
+- **products** - Catalogue produits (si stockage local)
 
-## 🔌 API Integration
+## 🔌 Intégration API
 
-### Furniture API
-The platform integrates with external furniture APIs for real-time product data:
-- **Product Search** - Advanced filtering by style, price, category
-- **Recommendations** - AI-driven product suggestions
-- **Real-time Inventory** - Stock status and availability
-- **Rate Limiting** - Intelligent request management
+### API Meubles
+La plateforme s'intègre avec des APIs meubles externes pour données produits temps réel :
+- **Recherche Produits** - Filtrage avancé par style, prix, catégorie
+- **Recommandations** - Suggestions de produits basées sur l'IA
+- **Inventaire Temps Réel** - Statut stock et disponibilité
+- **Limitation Débit** - Gestion intelligente des requêtes
 
-## 🎨 Design System
+## 🎨 Système de Design
 
-### Style Guidelines
-- **Modern Aesthetic** - Clean, minimalist interface
-- **Color Palette** - Emerald and blue gradients with neutral grays
-- **Typography** - System fonts with clear hierarchy
-- **Responsive Design** - Mobile-first with desktop optimization
+### Directives de Style
+- **Esthétique Moderne** - Interface propre et minimaliste
+- **Palette de Couleurs** - Dégradés émeraude et bleu avec gris neutres
+- **Typographie** - Polices système avec hiérarchie claire
+- **Design Responsive** - Mobile-first avec optimisation desktop
 
-### Component Library
-- Consistent styling across all components
-- Accessible design patterns
-- Reusable component architecture
-- Theme-aware styling system
+### Bibliothèque de Composants
+- Style cohérent dans tous les composants
+- Motifs de design accessibles
+- Architecture de composants réutilisables
+- Système de style thématique
 
-## 🚦 Getting Started (Manager Guide)
+## 🚦 Guide de Démarrage (Manager)
 
-### Phase 1: Initial Setup (Week 1)
-1. Set up development environment
-2. Configure Supabase database
-3. Test authentication flow
-4. Verify API integrations
+### Phase 1 : Configuration Initiale (Semaine 1)
+1. Configurer l'environnement de développement
+2. Configurer la base de données Supabase
+3. Tester le flux d'authentification
+4. Vérifier les intégrations API
 
-### Phase 2: Core Features (Weeks 2-3)
-1. Style quiz functionality
-2. Room measurement tools
-3. Product catalog integration
-4. User dashboard implementation
+### Phase 2 : Fonctionnalités Principales (Semaines 2-3)
+1. Fonctionnalité quiz de style
+2. Outils de mesure de pièce
+3. Intégration catalogue produits
+4. Implémentation tableau de bord utilisateur
 
-### Phase 3: Enhancement (Week 4)
-1. Advanced filtering
-2. User experience optimization
-3. Performance improvements
-4. Testing and deployment
+### Phase 3 : Améliorations (Semaine 4)
+1. Filtrage avancé
+2. Optimisation expérience utilisateur
+3. Améliorations performance
+4. Tests et déploiement
 
-## 🔮 Future Development Roadmap
+## 🔮 Feuille de Route Développement Futur
 
-### Immediate Enhancements
-- **AI Image Recognition** - Upload room photos for analysis
-- **3D Visualization** - Room rendering with selected products
-- **Social Features** - Share designs and get feedback
-- **Advanced Analytics** - User behavior and preference tracking
+### Améliorations Immédiates
+- **Reconnaissance Image IA** - Upload photos de pièce pour analyse
+- **Visualisation 3D** - Rendu de pièce avec produits sélectionnés
+- **Fonctionnalités Sociales** - Partager designs et recevoir feedback
+- **Analytics Avancées** - Suivi comportement utilisateur et préférences
 
-### Long-term Features
-- **AR Integration** - Augmented reality product placement
-- **Professional Services** - Connect with interior designers
-- **E-commerce Integration** - Direct product purchasing
-- **Mobile Application** - Native iOS/Android apps
+### Fonctionnalités Long Terme
+- **Intégration AR** - Placement produits en réalité augmentée
+- **Services Professionnels** - Connexion avec designers d'intérieur
+- **Intégration E-commerce** - Achat direct de produits
+- **Application Mobile** - Apps natives iOS/Android
 
-## 📊 Performance & Scalability
+## 📊 Performance & Évolutivité
 
-### Current Metrics
-- **Build Time**: ~560ms (Vite)
-- **Bundle Size**: Optimized for web performance
-- **API Rate Limits**: 500 requests/day (development)
-- **Database**: Serverless scaling with Supabase
+### Métriques Actuelles
+- **Temps de Build** : ~560ms (Vite)
+- **Taille Bundle** : Optimisée pour performance web
+- **Limites API** : 500 requêtes/jour (développement)
+- **Base de Données** : Scaling serverless avec Supabase
 
-### Optimization Strategies
-- Code splitting and lazy loading
-- Image optimization and CDN usage
-- Caching strategies for API responses
-- Progressive web app capabilities
+### Stratégies d'Optimisation
+- Code splitting et lazy loading
+- Optimisation images et usage CDN
+- Stratégies de cache pour réponses API
+- Capacités progressive web app
 
-## 🔒 Security & Privacy
+## 🔒 Sécurité & Confidentialité
 
-### Authentication
-- Secure JWT-based authentication
-- Password hashing and encryption
-- Email verification workflow
-- Session management
+### Authentification
+- Authentification sécurisée basée JWT
+- Hachage et chiffrement de mots de passe
+- Workflow de vérification email
+- Gestion de session
 
-### Data Protection
-- GDPR compliance considerations
-- Secure API endpoints
-- Data encryption in transit and at rest
-- User consent management
+### Protection des Données
+- Considérations conformité RGPD
+- Points de terminaison API sécurisés
+- Chiffrement des données en transit et au repos
+- Gestion du consentement utilisateur
 
-## 📈 Business Value
+## 📈 Valeur Business
 
-### User Benefits
-- **Time Savings** - Rapid design decision-making
-- **Cost Efficiency** - Avoid expensive design mistakes
-- **Personalization** - Tailored recommendations
-- **Convenience** - All-in-one design platform
+### Bénéfices Utilisateur
+- **Gain de Temps** - Prise de décision design rapide
+- **Efficacité Coût** - Éviter erreurs de design coûteuses
+- **Personnalisation** - Recommandations sur mesure
+- **Commodité** - Plateforme de design tout-en-un
 
-### Business Metrics
-- **User Engagement** - Style quiz completion rates
-- **Conversion** - Project creation and completion
-- **Retention** - Return user analytics
-- **Revenue** - Product affiliate commissions
+### Métriques Business
+- **Engagement Utilisateur** - Taux de complétion quiz de style
+- **Conversion** - Création et complétion de projets
+- **Fidélisation** - Analytics utilisateurs récurrents
+- **Revenus** - Commissions affiliées produits
 
-## 🤝 Contributing
+## 🤝 Contribution
 
-### Development Workflow
-1. Create feature branches from `main`
-2. Follow TypeScript and ESLint conventions
-3. Write comprehensive tests
-4. Submit pull requests with detailed descriptions
+### Workflow de Développement
+1. Créer branches de fonctionnalités depuis `main`
+2. Suivre conventions TypeScript et ESLint
+3. Écrire tests complets
+4. Soumettre pull requests avec descriptions détaillées
 
-### Code Standards
-- TypeScript strict mode
-- ESLint configuration
-- Prettier code formatting
-- Component documentation
+### Standards de Code
+- Mode strict TypeScript
+- Configuration ESLint
+- Formatage de code Prettier
+- Documentation des composants
 
 ## 📞 Support & Contact
 
-For technical questions or business inquiries:
-- **Email**: contact@adariz.com
-- **Phone**: +33 1 23 45 67 89
-- **Location**: Paris, France
+Pour questions techniques ou demandes business :
+- **Email** : contact@adariz.com
+- **Téléphone** : +33 1 23 45 67 89
+- **Localisation** : Paris, France
 
 ---
 
-**Adariz** - Transforming spaces with artificial intelligence. © 2025 All rights reserved.
+**Adariz** - Transformer les espaces avec l'intelligence artificielle. © 2025 Tous droits réservés.
