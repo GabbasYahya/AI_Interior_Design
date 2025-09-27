@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { HeroButton } from '../components/ui/hero-button';
 import { Badge } from '../components/ui/badge';
-import { ProductCatalogService } from '../services/productCatalogService';
+import productService from '../services/productService';
 import { supabase } from '../integrations/supabase/client';
 import { 
   ShoppingBag, Heart, Share2, ArrowLeft, 
@@ -20,7 +20,7 @@ const ProductDetail = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const catalogService = new ProductCatalogService(supabase);
+  // Using productService instead of catalogService
 
   useEffect(() => {
     if (id) {
@@ -31,7 +31,13 @@ const ProductDetail = () => {
   const loadProductDetails = async () => {
     setLoading(true);
     try {
-      const details = await catalogService.getProductDetails(id!);
+      const product = await productService.getProductById(id!);
+      const relatedProducts = await productService.getRelatedProducts(id!);
+      const details = {
+        product,
+        relatedProducts,
+        alternativeColors: []
+      };
       if (details) {
         setProduct(details.product);
         setRelatedProducts(details.relatedProducts);
@@ -125,9 +131,9 @@ const ProductDetail = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-hero flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#20B2AA] mx-auto mb-4"></div>
           <p className="text-slate-600">Chargement du produit...</p>
         </div>
       </div>
@@ -136,7 +142,7 @@ const ProductDetail = () => {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-hero flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-slate-800 mb-4">Produit non trouvé</h2>
           <HeroButton onClick={() => navigate('/products')}>
@@ -148,7 +154,7 @@ const ProductDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-gradient-hero">
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 mb-6">
@@ -223,8 +229,8 @@ const ProductDetail = () => {
                     onClick={() => setCurrentImageIndex(index)}
                     className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
                       index === currentImageIndex 
-                        ? 'border-emerald-500' 
-                        : 'border-gray-200 hover:border-gray-300'
+                        ? 'border-[#20B2AA]' 
+                        : 'border-gray-200 hover:border-[#20B2AA]/40'
                     }`}
                   >
                     <img
@@ -256,7 +262,7 @@ const ProductDetail = () => {
                 {product.name}
               </h1>
               
-              <div className="text-3xl font-bold text-emerald-600 mb-4">
+              <div className="text-3xl font-bold text-[#0f766e] mb-4">
                 {product.price} {product.currency}
               </div>
 
@@ -317,15 +323,15 @@ const ProductDetail = () => {
               
               <div className="grid grid-cols-3 gap-2 text-center text-sm">
                 <div className="flex flex-col items-center gap-2 p-3 border rounded-lg">
-                  <Truck className="w-5 h-5 text-emerald-600" />
+                  <Truck className="w-5 h-5 text-[#0f766e]" />
                   <span className="text-slate-600">Livraison {product.metadata?.delivery_time}</span>
                 </div>
                 <div className="flex flex-col items-center gap-2 p-3 border rounded-lg">
-                  <Shield className="w-5 h-5 text-emerald-600" />
+                  <Shield className="w-5 h-5 text-[#0f766e]" />
                   <span className="text-slate-600">Garantie {product.metadata?.warranty}</span>
                 </div>
                 <div className="flex flex-col items-center gap-2 p-3 border rounded-lg">
-                  <RotateCcw className="w-5 h-5 text-emerald-600" />
+                  <RotateCcw className="w-5 h-5 text-[#0f766e]" />
                   <span className="text-slate-600">Retour 30j</span>
                 </div>
               </div>
@@ -360,7 +366,7 @@ const ProductDetail = () => {
                     <CardTitle className="text-lg mb-2 line-clamp-1">
                       {relatedProduct.name}
                     </CardTitle>
-                    <div className="text-xl font-bold text-emerald-600">
+                    <div className="text-xl font-bold text-[#0f766e]">
                       {relatedProduct.price} {relatedProduct.currency}
                     </div>
                   </CardContent>

@@ -5,41 +5,41 @@ const SimpleHeader = () => {
   const navigate = useNavigate();
 
   return (
-    <header className="bg-white/95 backdrop-blur-sm border-b border-emerald-100 sticky top-0 z-50">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#040b15]/85 backdrop-blur-xl">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#06363a] to-[#20B2AA] shadow-soft">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-emerald-600">Adariz</span>
+            <span className="text-xl font-bold text-white">Adariz</span>
           </div>
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center gap-6">
             <button
               onClick={() => navigate('/')}
-              className="text-gray-700 hover:text-emerald-600 transition-colors font-medium"
+              className="text-white/80 transition-colors font-medium hover:text-[#20B2AA]"
             >
               Accueil
             </button>
             <button
               onClick={() => navigate('/style-quiz')}
-              className="text-gray-700 hover:text-emerald-600 transition-colors font-medium"
+              className="text-white/80 transition-colors font-medium hover:text-[#20B2AA]"
             >
               Quiz de Style
             </button>
             <button
               onClick={() => navigate('/measurements')}
-              className="text-gray-700 hover:text-emerald-600 transition-colors font-medium"
+              className="text-white/80 transition-colors font-medium hover:text-[#20B2AA]"
             >
               Mesures
             </button>
           </nav>
 
           {/* CTA Button */}
-          <button className="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition-colors font-medium">
+          <button className="rounded-lg bg-gradient-warm px-4 py-2 font-medium text-white shadow-elegant transition-all duration-200 hover:shadow-float">
             Commencer
           </button>
         </div>

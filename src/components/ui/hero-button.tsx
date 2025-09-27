@@ -9,7 +9,7 @@ const heroButtonVariants = cva(
     variants: {
       variant: {
         hero: "bg-gradient-warm text-primary-foreground shadow-elegant hover:shadow-float transform hover:-translate-y-1 hover:scale-105",
-        outline: "border border-primary text-primary bg-background hover:bg-primary hover:text-primary-foreground shadow-soft",
+  outline: "border border-primary/60 text-primary bg-transparent hover:bg-primary hover:text-primary-foreground shadow-soft",
         ghost: "hover:bg-accent hover:text-accent-foreground",
       },
       size: {

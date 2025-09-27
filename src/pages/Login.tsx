@@ -48,8 +48,8 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-blue-50 p-4">
-      <Card className="w-full max-w-md">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-[#f1f5f9] via-white to-[#e6faf7] p-4">
+      <Card className="w-full max-w-md border border-[#dbe4ff] shadow-soft">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Connexion</CardTitle>
           <CardDescription className="text-center">
@@ -110,10 +110,10 @@ const Login = () => {
               Se connecter
             </HeroButton>
 
-            <div className="text-center space-y-2">
+            <div className="space-y-2 text-center">
               <Link
                 to="/forgot-password"
-                className="text-sm text-emerald-600 hover:text-emerald-700 hover:underline"
+                className="text-sm font-medium text-[#0f766e] transition-colors hover:text-[#0b4c4b] hover:underline"
               >
                 Mot de passe oublié ?
               </Link>
@@ -122,7 +122,7 @@ const Login = () => {
                 Pas encore de compte ?{' '}
                 <Link
                   to="/register"
-                  className="text-emerald-600 hover:text-emerald-700 hover:underline font-medium"
+                  className="font-semibold text-[#0f766e] transition-colors hover:text-[#0b4c4b] hover:underline"
                 >
                   Créer un compte
                 </Link>
@@ -130,12 +130,12 @@ const Login = () => {
             </div>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-gray-200">
+          <div className="mt-6 border-t border-[#e2e8f0] pt-6">
             <div className="text-center">
               <HeroButton
                 variant="outline"
                 onClick={() => navigate('/')}
-                className="w-full"
+                className="w-full border-[#cbd5f5] text-[#1f2937] hover:bg-[#eef2ff]"
               >
                 Retour à l'accueil
               </HeroButton>

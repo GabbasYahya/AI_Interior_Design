@@ -9,6 +9,143 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      adariz_products: {
+        Row: {
+          id: string
+          name: string
+          description: string | null
+          price: string | null
+          image_url: string
+          category: string
+          style: string[]
+          instagram_post_id: string | null
+          instagram_post_url: string | null
+          tags: string[]
+          in_stock: boolean
+          featured: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          description?: string | null
+          price?: string | null
+          image_url: string
+          category: string
+          style?: string[]
+          instagram_post_id?: string | null
+          instagram_post_url?: string | null
+          tags?: string[]
+          in_stock?: boolean
+          featured?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          description?: string | null
+          price?: string | null
+          image_url?: string
+          category?: string
+          style?: string[]
+          instagram_post_id?: string | null
+          instagram_post_url?: string | null
+          tags?: string[]
+          in_stock?: boolean
+          featured?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      generated_rooms: {
+        Row: {
+          id: string
+          user_id: string | null
+          image_url: string
+          description: string | null
+          design_elements: string[]
+          ai_prompt: string | null
+          room_type: string
+          dimensions: Json | null
+          style_profile: Json | null
+          recommended_products: Json
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id?: string | null
+          image_url: string
+          description?: string | null
+          design_elements?: string[]
+          ai_prompt?: string | null
+          room_type: string
+          dimensions?: Json | null
+          style_profile?: Json | null
+          recommended_products?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string | null
+          image_url?: string
+          description?: string | null
+          design_elements?: string[]
+          ai_prompt?: string | null
+          room_type?: string
+          dimensions?: Json | null
+          style_profile?: Json | null
+          recommended_products?: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "generated_rooms_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      instagram_sync: {
+        Row: {
+          id: string
+          last_sync_at: string | null
+          total_posts_processed: number
+          total_products_extracted: number
+          status: string
+          error_message: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          last_sync_at?: string | null
+          total_posts_processed?: number
+          total_products_extracted?: number
+          status?: string
+          error_message?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          last_sync_at?: string | null
+          total_posts_processed?: number
+          total_products_extracted?: number
+          status?: string
+          error_message?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           id: string

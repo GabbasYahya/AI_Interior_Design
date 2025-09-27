@@ -9,13 +9,14 @@ import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthComponent } from "@/components/AuthComponent";
+import { userDashboardService, UserProject, UserFavorite, DashboardStats } from "@/services/userDashboardService";
 
 const Dashboard = () => {
   const { user, profile, loading } = useAuth();
   const navigate = useNavigate();
-  const [projects, setProjects] = useState<any[]>([]);
-  const [favoriteProducts, setFavoriteProducts] = useState<any[]>([]);
-  const [stats, setStats] = useState({
+  const [projects, setProjects] = useState<UserProject[]>([]);
+  const [favoriteProducts, setFavoriteProducts] = useState<UserFavorite[]>([]);
+  const [stats, setStats] = useState<DashboardStats>({
     totalProjects: 0,
     totalFavorites: 0,
     totalGenerations: 0,
@@ -23,11 +24,57 @@ const Dashboard = () => {
   });
   const [loadingData, setLoadingData] = useState(true);
 
+  const handleRemoveFromFavorites = async (itemId: string, itemType: 'project' | 'ai_design' | 'photo' = 'project') => {
+    if (!user?.id) return;
+    
+    try {
+      const success = await userDashboardService.removeFromFavorites(user.id, itemId, itemType);
+      if (success) {
+        // Refresh favorites list
+        const updatedFavorites = await userDashboardService.getUserFavorites(user.id);
+        setFavoriteProducts(updatedFavorites);
+        // Update stats
+        setStats(prev => ({ ...prev, totalFavorites: updatedFavorites.length }));
+      }
+    } catch (error) {
+      console.error('Failed to remove from favorites:', error);
+    }
+  };
+
+  const handleCreateProject = async () => {
+    if (!user?.id) return;
+    
+    const newProject = {
+      user_id: user.id,
+      name: 'Nouveau Projet',
+      room_type: 'Living Room',
+      style_preference: 'Modern',
+      status: 'draft' as const,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+
+    try {
+      const createdProject = await userDashboardService.createProject(newProject);
+      if (createdProject) {
+        // Refresh projects list
+        const updatedProjects = await userDashboardService.getUserProjects(user.id);
+        setProjects(updatedProjects);
+        setStats(prev => ({ ...prev, totalProjects: updatedProjects.length }));
+        
+        // Navigate to the project edit page
+        navigate(`/project/${createdProject.id}/edit`);
+      }
+    } catch (error) {
+      console.error('Failed to create project:', error);
+    }
+  };
+
   useEffect(() => {
     // Add timeout to prevent infinite loading
     const timeout = setTimeout(() => {
-      console.warn('Dashboard loading timeout, switching to demo mode');
-      loadDemoData();
+      console.warn('Dashboard loading timeout, showing empty state');
+      loadEmptyState();
     }, 8000);
 
     // Check if we have environment variables for Supabase
@@ -35,9 +82,9 @@ const Dashboard = () => {
     const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
     
     if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_URL === 'your-supabase-url' || SUPABASE_ANON_KEY === 'your-supabase-anon-key') {
-      // Demo mode - load sample data immediately
+      // No Supabase configuration - show empty state with real data structure
       clearTimeout(timeout);
-      loadDemoData();
+      loadEmptyState();
       return;
     }
 
@@ -53,43 +100,15 @@ const Dashboard = () => {
     return () => clearTimeout(timeout);
   }, [user, loading]);
 
-  const loadDemoData = () => {
-    // Sample demo data
-    const demoProjects = [
-      {
-        id: '1',
-        name: 'Living Room Redesign',
-        room_type: 'Living Room',
-        style_preference: 'Modern',
-        status: 'completed',
-        created_at: new Date().toISOString(),
-        room_measurements: [{ id: '1' }, { id: '2' }]
-      },
-      {
-        id: '2', 
-        name: 'Master Bedroom',
-        room_type: 'Bedroom',
-        style_preference: 'Scandinavian',
-        status: 'in_progress',
-        created_at: new Date(Date.now() - 86400000).toISOString(),
-        room_measurements: [{ id: '3' }]
-      }
-    ];
-
-    const demoFavorites = [
-      {
-        id: '1',
-        created_at: new Date().toISOString()
-      }
-    ];
-
-    setProjects(demoProjects);
-    setFavoriteProducts(demoFavorites);
+  const loadEmptyState = () => {
+    // Initialize with empty real data instead of mock data
+    setProjects([]);
+    setFavoriteProducts([]);
     setStats({
-      totalProjects: demoProjects.length,
-      totalFavorites: demoFavorites.length,
-      totalGenerations: 5,
-      totalMeasurements: 3
+      totalProjects: 0,
+      totalFavorites: 0,
+      totalGenerations: 0,
+      totalMeasurements: 0
     });
     setLoadingData(false);
   };
@@ -98,57 +117,32 @@ const Dashboard = () => {
     try {
       setLoadingData(true);
       
+      if (!user?.id) {
+        loadEmptyState();
+        return;
+      }
+
       // Add timeout for data fetching
       const dataTimeout = setTimeout(() => {
-        console.warn('Data fetch timeout, falling back to demo mode');
-        loadDemoData();
+        console.warn('Data fetch timeout, showing empty state');
+        loadEmptyState();
       }, 5000);
       
-      // Fetch user projects with room measurements
-      const { data: projectsData, error: projectsError } = await supabase
-        .from('projects')
-        .select(`
-          *,
-          room_measurements(id)
-        `)
-        .eq('user_id', user?.id)
-        .order('created_at', { ascending: false });
+      // Use the real data service instead of direct Supabase calls
+      const [projectsData, favoritesData, statsData] = await Promise.all([
+        userDashboardService.getUserProjects(user.id),
+        userDashboardService.getUserFavorites(user.id),
+        userDashboardService.getDashboardStats(user.id)
+      ]);
 
       clearTimeout(dataTimeout);
 
-      if (projectsError && projectsError.code !== 'PGRST116') {
-        throw projectsError;
-      }
-
-      // Fetch favorite products
-      const { data: favoritesData, error: favoritesError } = await supabase
-        .from('favorites')
-        .select('*')
-        .eq('user_id', user?.id);
-
-      if (favoritesError && favoritesError.code !== 'PGRST116') {
-        console.warn('Error fetching favorites, continuing without favorites data:', favoritesError);
-      }
-
-      // Fetch AI design generations count (temporarily set to 0 until AI features are implemented)
-      const generationsCount = 0;
-
-      // Calculate total measurements across all projects
-      const totalMeasurements = projectsData?.reduce((total, project) => {
-        return total + (project.room_measurements?.length || 0);
-      }, 0) || 0;
-
-      setProjects(projectsData || []);
-      setFavoriteProducts(favoritesData || []);
-      setStats({
-        totalProjects: projectsData?.length || 0,
-        totalFavorites: favoritesData?.length || 0,
-        totalGenerations: generationsCount || 0,
-        totalMeasurements: totalMeasurements
-      });
+      setProjects(projectsData);
+      setFavoriteProducts(favoritesData);
+      setStats(statsData);
     } catch (error) {
-      console.error('Error fetching user data, falling back to demo mode:', error);
-      loadDemoData();
+      console.error('Error fetching user data, showing empty state:', error);
+      loadEmptyState();
     } finally {
       setLoadingData(false);
     }
@@ -156,10 +150,14 @@ const Dashboard = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "completed": return "bg-sage-green text-foreground";
-      case "in_progress": return "bg-primary-warm text-foreground";
-      case "draft": return "bg-warm-grey text-foreground";
-      default: return "bg-muted text-muted-foreground";
+      case "completed":
+        return "border border-[#20B2AA]/40 bg-[#E6FAF7] text-[#0A3A3B]";
+      case "in_progress":
+        return "border border-[#38BDF8]/40 bg-[#E0F2FF] text-[#0B3A4D]";
+      case "draft":
+        return "border border-[#E5E7EB] bg-[#F7F8FB] text-[#4B5563]";
+      default:
+        return "border border-[#E5E7EB] bg-[#F1F5F9] text-[#475569]";
     }
   };
 
@@ -223,7 +221,7 @@ const Dashboard = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-4">
           <Card className="shadow-soft bg-gradient-card border-0">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -231,8 +229,8 @@ const Dashboard = () => {
                   <p className="text-sm text-muted-foreground mb-1">Projets totaux</p>
                   <p className="text-2xl font-bold">{stats.totalProjects}</p>
                 </div>
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <Home className="w-6 h-6 text-primary" />
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#20B2AA]/15">
+                  <Home className="h-6 w-6 text-[#0f766e]" />
                 </div>
               </div>
             </CardContent>
@@ -245,8 +243,8 @@ const Dashboard = () => {
                   <p className="text-sm text-muted-foreground mb-1">Favoris</p>
                   <p className="text-2xl font-bold">{stats.totalFavorites}</p>
                 </div>
-                <div className="w-12 h-12 bg-primary-accent/10 rounded-lg flex items-center justify-center">
-                  <Heart className="w-6 h-6 text-primary-accent" />
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#20B2AA]/15">
+                  <Heart className="h-6 w-6 text-[#20B2AA]" />
                 </div>
               </div>
             </CardContent>
@@ -259,8 +257,8 @@ const Dashboard = () => {
                   <p className="text-sm text-muted-foreground mb-1">Générations</p>
                   <p className="text-2xl font-bold">{stats.totalGenerations}</p>
                 </div>
-                <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center">
-                  <Eye className="w-6 h-6 text-accent" />
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#111f2b]/10">
+                  <Eye className="h-6 w-6 text-[#0f172a]" />
                 </div>
               </div>
             </CardContent>
@@ -273,8 +271,8 @@ const Dashboard = () => {
                   <p className="text-sm text-muted-foreground mb-1">Mesures totales</p>
                   <p className="text-2xl font-bold">{stats.totalMeasurements}</p>
                 </div>
-                <div className="w-12 h-12 bg-sage-green/10 rounded-lg flex items-center justify-center">
-                  <Ruler className="w-6 h-6 text-sage-green" />
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#20B2AA]/15">
+                  <Ruler className="h-6 w-6 text-[#0f766e]" />
                 </div>
               </div>
             </CardContent>
@@ -305,11 +303,15 @@ const Dashboard = () => {
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold">Mes Projets</h2>
               <div className="flex gap-2">
-                <HeroButton onClick={() => navigate('/measurements')} className="bg-indigo-600 hover:bg-indigo-700">
+                <HeroButton onClick={() => navigate('/measurements')} className="bg-gradient-warm">
                   <Plus className="w-4 h-4" />
                   Create New Room
                 </HeroButton>
-                <HeroButton variant="outline" onClick={() => navigate('/room-redesign')}>
+                <HeroButton
+                  variant="outline"
+                  onClick={() => navigate('/room-redesign')}
+                  className="border-[#0f172a] text-[#0f172a] hover:bg-[#0f172a] hover:text-white"
+                >
                   <Camera className="w-4 h-4" />
                   Redesign Room
                 </HeroButton>
@@ -324,7 +326,7 @@ const Dashboard = () => {
                   <p className="text-muted-foreground mb-6">
                     Créez votre premier projet pour commencer à concevoir vos espaces
                   </p>
-                  <HeroButton onClick={() => navigate('/new-project')}>
+                  <HeroButton onClick={handleCreateProject}>
                     <Plus className="w-4 h-4" />
                     Créer mon premier projet
                   </HeroButton>
@@ -334,7 +336,15 @@ const Dashboard = () => {
                   <Card key={project.id} className="shadow-soft hover:shadow-elegant transition-all duration-300 bg-gradient-card border-0 group">
                     <div className="relative overflow-hidden rounded-t-lg">
                       <div className="w-full h-48 bg-muted/50 flex items-center justify-center">
-                        <Home className="w-12 h-12 text-muted-foreground" />
+                        {project.thumbnail_url ? (
+                          <img 
+                            src={project.thumbnail_url} 
+                            alt={project.name} 
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <Home className="w-12 h-12 text-muted-foreground" />
+                        )}
                       </div>
                       <div className="absolute top-3 right-3">
                         <Badge className={getStatusColor(project.status)}>
@@ -357,11 +367,29 @@ const Dashboard = () => {
                         <span>{project.room_measurements?.length || 0} mesure(s)</span>
                       </div>
                       <div className="flex gap-2">
-                        <HeroButton variant="outline" size="sm" className="flex-1">
+                        <HeroButton 
+                          variant="outline" 
+                          size="sm" 
+                          className="flex-1"
+                          onClick={() => navigate(`/project/${project.id}`)}
+                        >
                           <Eye className="w-4 h-4" />
                           Voir
                         </HeroButton>
-                        <HeroButton variant="ghost" size="sm">
+                        <HeroButton 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => {
+                            if (project.thumbnail_url) {
+                              // Download project image
+                              const link = document.createElement('a');
+                              link.href = project.thumbnail_url;
+                              link.download = `${project.name}.jpg`;
+                              link.click();
+                            }
+                          }}
+                          disabled={!project.thumbnail_url}
+                        >
                           <Download className="w-4 h-4" />
                         </HeroButton>
                       </div>
@@ -407,7 +435,7 @@ const Dashboard = () => {
                   <p className="text-muted-foreground mb-6">
                     Explorez nos recommandations de produits et ajoutez vos préférés
                   </p>
-                  <HeroButton>
+                  <HeroButton onClick={() => navigate('/catalog')}>
                     Découvrir les produits
                   </HeroButton>
                 </div>
@@ -416,19 +444,28 @@ const Dashboard = () => {
                   <Card key={favorite.id} className="shadow-soft hover:shadow-elegant transition-all duration-300 bg-gradient-card border-0">
                     <div className="relative overflow-hidden rounded-t-lg">
                       <div className="w-full h-40 bg-muted/50 flex items-center justify-center">
-                        <Heart className="w-8 h-8 text-muted-foreground" />
+                        {favorite.item_image ? (
+                          <img 
+                            src={favorite.item_image} 
+                            alt={favorite.item_name || 'Favorite item'} 
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <Heart className="w-8 h-8 text-muted-foreground" />
+                        )}
                       </div>
                       <HeroButton 
                         variant="ghost" 
                         size="sm" 
-                        className="absolute top-3 right-3 w-8 h-8 p-0 bg-background/80 hover:bg-background"
+                        className="absolute right-3 top-3 h-8 w-8 bg-[#050505]/80 p-0 hover:bg-[#050505]"
+                        onClick={() => handleRemoveFromFavorites(favorite.favoritable_id, favorite.favoritable_type)}
                       >
-                        <Heart className="w-4 h-4 text-primary-accent fill-primary-accent" />
+                        <Heart className="h-4 w-4 fill-[#20B2AA] text-[#20B2AA]" />
                       </HeroButton>
                     </div>
                     <CardHeader className="pb-3">
                       <CardTitle className="text-lg">
-                        Produit favori
+                        {favorite.item_name || 'Élément favori'}
                       </CardTitle>
                       <CardDescription>
                         Ajouté le {new Date(favorite.created_at).toLocaleDateString('fr-FR')}
@@ -437,10 +474,10 @@ const Dashboard = () => {
                     <CardContent className="pt-0">
                       <div className="flex items-center justify-between">
                         <span className="text-xl font-bold text-primary">
-                          À venir
+                          {favorite.favoritable_type === 'project' ? 'Projet' : 'Élément'}
                         </span>
-                        <HeroButton size="sm">
-                          Voir le produit
+                        <HeroButton size="sm" onClick={() => navigate(`/${favorite.favoritable_type}/${favorite.favoritable_id}`)}>
+                          Voir l'élément
                         </HeroButton>
                       </div>
                     </CardContent>

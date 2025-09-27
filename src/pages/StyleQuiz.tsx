@@ -55,7 +55,7 @@ const StyleQuiz = () => {
         { value: "boheme", label: "Bohème", description: "Couleurs chaudes, textures naturelles, esprit libre", color: "bg-amber-100 text-amber-800" },
         { value: "classique", label: "Classique", description: "Élégance intemporelle, matériaux nobles", color: "bg-blue-100 text-blue-800" },
         { value: "industriel", label: "Industriel", description: "Métal, brique, style loft urbain", color: "bg-slate-100 text-slate-800" },
-        { value: "scandinave", label: "Scandinave", description: "Minimalisme, bois clair, hygge", color: "bg-emerald-100 text-emerald-800" }
+  { value: "scandinave", label: "Scandinave", description: "Minimalisme, bois clair, hygge", color: "bg-[#E6FAF7] text-[#0f766e]" }
       ]
     },
     {
@@ -192,14 +192,14 @@ const StyleQuiz = () => {
 
   if (isCompleted && styleProfile) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-emerald-50">
+      <div className="min-h-screen bg-gradient-to-br from-[#f1f5f9] via-white to-[#e6faf7]">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             {/* Header */}
             <div className="text-center mb-12">
               <div className="flex items-center justify-center gap-3 mb-6">
-                <CheckCircle className="w-8 h-8 text-emerald-600" />
-                <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
+                <CheckCircle className="w-8 h-8 text-[#20B2AA]" />
+                <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#20B2AA] to-[#0f766e] bg-clip-text text-transparent">
                   Votre Profil de Style
                 </h1>
               </div>
@@ -210,8 +210,8 @@ const StyleQuiz = () => {
             </div>
 
             {/* Style Profile Card */}
-            <Card className="shadow-2xl bg-white/80 backdrop-blur-sm border-0 mb-8 overflow-hidden">
-              <div className="bg-gradient-to-r from-emerald-500 to-blue-500 h-2"></div>
+            <Card className="mb-8 overflow-hidden border-0 bg-white/80 shadow-2xl backdrop-blur-sm">
+              <div className="h-2 bg-gradient-to-r from-[#20B2AA] to-[#0f766e]"></div>
               
               <CardHeader className="pb-6">
                 <CardTitle className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
@@ -242,14 +242,14 @@ const StyleQuiz = () => {
                 </div>
 
                 {/* Score */}
-                <div className="mt-8 p-6 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-xl border border-emerald-200">
+                <div className="mt-8 rounded-xl border border-[#9DE8E0] bg-gradient-to-r from-[#E6FAF7] to-[#F1F5F9] p-6">
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="font-semibold text-gray-800 mb-2">Profil complété</h3>
                       <p className="text-gray-600">Quiz terminé le {new Date(styleProfile.completedAt).toLocaleDateString('fr-FR')}</p>
                     </div>
                     <div className="text-right">
-                      <div className="text-3xl font-bold text-emerald-600">{Math.round(styleProfile.score)}%</div>
+                      <div className="text-3xl font-bold text-[#0f766e]">{Math.round(styleProfile.score)}%</div>
                       <div className="text-sm text-gray-600">Complétion</div>
                     </div>
                   </div>
@@ -258,11 +258,11 @@ const StyleQuiz = () => {
             </Card>
 
             {/* Actions */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+            <div className="mb-8 flex flex-col justify-center gap-4 sm:flex-row">
               <HeroButton
                 onClick={saveAndContinue}
                 size="lg"
-                className="bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-700 hover:to-blue-700 text-white border-0 shadow-lg"
+                className="bg-gradient-warm text-white shadow-elegant"
               >
                 <Save className="w-5 h-5 mr-2" />
                 Sauvegarder et Continuer
@@ -272,7 +272,7 @@ const StyleQuiz = () => {
                 onClick={resetQuiz}
                 variant="outline"
                 size="lg"
-                className="border-2 border-gray-300 text-gray-700 hover:bg-gray-50"
+                className="border border-[#cbd5f5] text-[#1f2937] hover:bg-[#eef2ff]"
               >
                 <RotateCcw className="w-5 h-5 mr-2" />
                 Refaire le Quiz
@@ -299,37 +299,37 @@ const StyleQuiz = () => {
   const isLastQuestion = currentQuestion === questions.length - 1;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-emerald-50">
+    <div className="min-h-screen bg-gradient-to-br from-[#f1f5f9] via-white to-[#e6faf7]">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           {/* Header with Progress */}
-          <div className="text-center mb-12">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <Palette className="w-8 h-8 text-emerald-600" />
-              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
+          <div className="mb-12 text-center">
+            <div className="mb-6 flex items-center justify-center gap-3">
+              <Palette className="h-8 w-8 text-[#20B2AA]" />
+              <h1 className="text-4xl font-bold text-transparent md:text-5xl bg-gradient-to-r from-[#20B2AA] via-[#138d84] to-[#0f172a] bg-clip-text">
                 Quiz de Style
               </h1>
             </div>
             
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            <p className="mx-auto mb-8 max-w-2xl text-xl text-gray-600">
               Découvrez votre style de décoration personnel en répondant à quelques questions simples.
             </p>
 
             {/* Progress Bar Enhanced */}
             <div className="relative mb-6">
               <Progress value={progress} className="h-3 bg-gray-200" />
-              <div className="absolute top-0 left-0 h-3 rounded-full bg-gradient-to-r from-emerald-500 to-blue-500 transition-all duration-700 ease-out"
+              <div className="absolute left-0 top-0 h-3 rounded-full bg-gradient-to-r from-[#20B2AA] to-[#0f766e] transition-all duration-700 ease-out"
                    style={{ width: `${progress}%` }}></div>
             </div>
             
-            <div className="flex justify-between items-center text-sm">
+            <div className="flex items-center justify-between text-sm">
               <Badge variant="outline" className="bg-white">
                 {currentQuestionData.category}
               </Badge>
-              <span className="text-gray-500 font-medium">
+              <span className="font-medium text-gray-500">
                 Question {currentQuestion + 1} sur {questions.length}
               </span>
-              <Badge variant="outline" className="bg-emerald-50 text-emerald-700">
+              <Badge variant="outline" className="bg-[#E6FAF7] text-[#0f766e]">
                 {Math.round(progress)}% complété
               </Badge>
             </div>
@@ -337,8 +337,8 @@ const StyleQuiz = () => {
 
           {/* Question Card */}
           <div className={`transition-all duration-300 ${animationClass}`}>
-            <Card className="shadow-2xl bg-white/80 backdrop-blur-sm border-0 mb-8 overflow-hidden">
-              <div className="bg-gradient-to-r from-emerald-500 to-blue-500 h-2"></div>
+            <Card className="mb-8 overflow-hidden border-0 bg-white/80 shadow-2xl backdrop-blur-sm">
+              <div className="h-2 bg-gradient-to-r from-[#20B2AA] to-[#0f766e]"></div>
               
               <CardHeader className="pb-6">
                 <CardTitle className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
@@ -363,8 +363,8 @@ const StyleQuiz = () => {
                         
                         <div className={`absolute inset-0 rounded-xl transition-all duration-300 ${
                           currentAnswer === option.value 
-                            ? 'bg-gradient-to-r from-emerald-500 to-blue-500 opacity-100' 
-                            : 'bg-gray-200 opacity-0 group-hover:opacity-50'
+                            ? 'bg-gradient-to-r from-[#20B2AA] to-[#0f766e] opacity-100' 
+                            : 'bg-[#20B2AA]/10 opacity-0 group-hover:opacity-60'
                         }`}></div>
                         
                         <div className={`relative flex items-start gap-4 p-6 rounded-xl border-2 transition-all duration-300 cursor-pointer ${
@@ -381,8 +381,8 @@ const StyleQuiz = () => {
                           
                           <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
                             currentAnswer === option.value 
-                              ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white scale-110' 
-                              : 'bg-gray-100 group-hover:bg-gray-200'
+                              ? 'bg-gradient-to-r from-[#20B2AA] to-[#0f4c75] text-white scale-110' 
+                              : 'bg-slate-100 group-hover:bg-slate-200'
                           }`}>
                             <CheckCircle className={`w-6 h-6 ${currentAnswer === option.value ? 'text-white' : 'text-gray-400'}`} />
                           </div>
@@ -399,19 +399,13 @@ const StyleQuiz = () => {
                               </h3>
                               
                               {currentAnswer === option.value && (
-                                <CheckCircle className="w-6 h-6 text-emerald-600 animate-in zoom-in-50 duration-200" />
+                                <CheckCircle className="w-6 h-6 text-[#20B2AA] animate-in zoom-in-50 duration-200" />
                               )}
                             </div>
                             
                             <p className="text-gray-600 leading-relaxed">
                               {option.description}
                             </p>
-                            
-                            {option.color && (
-                              <Badge className={`mt-2 ${option.color} border-0`}>
-                                Style recommandé
-                              </Badge>
-                            )}
                           </Label>
                         </div>
                       </div>
@@ -423,12 +417,12 @@ const StyleQuiz = () => {
           </div>
 
           {/* Navigation Enhanced */}
-          <div className="flex justify-between items-center mb-8">
+          <div className="mb-8 flex items-center justify-between">
             <HeroButton
               variant="outline"
               onClick={handlePrevious}
               disabled={currentQuestion === 0}
-              className="min-w-32 h-12 border-2 disabled:opacity-50"
+              className="min-w-32 h-12 border border-[#cbd5f5] text-[#1f2937] hover:bg-[#eef2ff] disabled:border-[#e2e8f0] disabled:opacity-50"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Précédent
@@ -439,7 +433,7 @@ const StyleQuiz = () => {
                 <div key={index} 
                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
                        index <= currentQuestion 
-                         ? 'bg-gradient-to-r from-emerald-500 to-blue-500 scale-110' 
+                         ? 'scale-110 bg-gradient-to-r from-[#20B2AA] to-[#0f766e]' 
                          : 'bg-gray-300'
                      }`}></div>
               ))}
@@ -448,7 +442,7 @@ const StyleQuiz = () => {
             <HeroButton
               onClick={handleNext}
               disabled={!currentAnswer}
-              className="min-w-32 h-12 bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-700 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="min-w-32 h-12 bg-gradient-warm text-white disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isLastQuestion ? (
                 <>
@@ -468,7 +462,7 @@ const StyleQuiz = () => {
           <div className="flex justify-center">
             <div className="flex items-center gap-6 text-sm">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#20B2AA] font-bold text-white shadow-lg">
                   1
                 </div>
                 <span className="font-medium text-gray-600">Accueil</span>
@@ -477,7 +471,7 @@ const StyleQuiz = () => {
               <div className="w-12 h-px bg-gray-300"></div>
               
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-r from-[#20B2AA] to-[#0f4c75] font-bold text-white shadow-lg">
                   2
                 </div>
                 <span className="font-medium text-gray-800">Quiz de style</span>
@@ -487,9 +481,9 @@ const StyleQuiz = () => {
 
           {/* Answers Summary */}
           {Object.keys(answers).length > 0 && (
-            <div className="mt-8 p-6 bg-white/60 backdrop-blur-sm rounded-xl border border-gray-200">
-              <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-emerald-600" />
+            <div className="mt-8 rounded-xl border border-[#9DE8E0] bg-white/70 p-6 backdrop-blur-sm">
+              <h3 className="mb-4 flex items-center gap-2 font-semibold text-gray-800">
+                <CheckCircle className="h-5 w-5 text-[#20B2AA]" />
                 Vos réponses jusqu'à présent
               </h3>
               <div className="flex flex-wrap gap-2">
@@ -497,7 +491,7 @@ const StyleQuiz = () => {
                   const question = questions.find(q => q.id === questionId);
                   const option = question?.options.find(opt => opt.value === answer);
                   return (
-                    <Badge key={questionId} variant="secondary" className="bg-emerald-100 text-emerald-800">
+                    <Badge key={questionId} variant="secondary" className="bg-[#E6FAF7] text-[#0f766e]">
                       {option?.label}
                     </Badge>
                   );

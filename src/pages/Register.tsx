@@ -74,11 +74,11 @@ const Register = () => {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-blue-50 p-4">
-        <Card className="w-full max-w-md">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-[#f1f5f9] via-white to-[#e6faf7] p-4">
+        <Card className="w-full max-w-md border border-[#dbe4ff] shadow-soft">
           <CardHeader className="space-y-1 text-center">
-            <div className="mx-auto w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
-              <CheckCircle className="w-6 h-6 text-emerald-600" />
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#E6FAF7]">
+              <CheckCircle className="h-6 w-6 text-[#0f766e]" />
             </div>
             <CardTitle className="text-2xl font-bold">Compte créé !</CardTitle>
             <CardDescription>
@@ -86,7 +86,7 @@ const Register = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <p className="text-sm text-gray-600 text-center">
+            <p className="text-center text-sm text-gray-600">
               Veuillez vérifier votre boîte mail et cliquer sur le lien de confirmation pour activer votre compte.
             </p>
             <HeroButton
@@ -102,8 +102,8 @@ const Register = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-blue-50 p-4">
-      <Card className="w-full max-w-md">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-[#f1f5f9] via-white to-[#e6faf7] p-4">
+      <Card className="w-full max-w-md border border-[#dbe4ff] shadow-soft">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Créer un compte</CardTitle>
           <CardDescription className="text-center">
@@ -206,7 +206,7 @@ const Register = () => {
                 Déjà un compte ?{' '}
                 <Link
                   to="/login"
-                  className="text-emerald-600 hover:text-emerald-700 hover:underline font-medium"
+                  className="font-semibold text-[#0f766e] transition-colors hover:text-[#0b4c4b] hover:underline"
                 >
                   Se connecter
                 </Link>
@@ -214,12 +214,12 @@ const Register = () => {
             </div>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-gray-200">
+          <div className="mt-6 border-t border-[#e2e8f0] pt-6">
             <div className="text-center">
               <HeroButton
                 variant="outline"
                 onClick={() => navigate('/')}
-                className="w-full"
+                className="w-full border-[#cbd5f5] text-[#1f2937] hover:bg-[#eef2ff]"
               >
                 Retour à l'accueil
               </HeroButton>

@@ -33,9 +33,27 @@ const Measurements = () => {
     }
   };
 
-  const handleSubmit = () => {
-    navigate('/dashboard', { 
-      state: { measurements, photo, roomName, additionalNotes } 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Get style profile from localStorage
+    const styleProfile = JSON.parse(localStorage.getItem('adariz_style_profile') || '{}');
+    
+    // Prepare measurements with converted numbers
+    const formattedMeasurements = {
+      width: parseFloat(measurements.width) || 0,
+      height: parseFloat(measurements.height) || 0, 
+      depth: parseFloat(measurements.depth) || 0,
+      roomType: measurements.roomType,
+      notes: measurements.notes
+    };
+    
+    navigate('/room-generation', { 
+      state: { 
+        measurements: formattedMeasurements, 
+        styleProfile,
+        photo 
+      } 
     });
   };  return (
     <div className="min-h-screen bg-white">
@@ -161,10 +179,10 @@ const Measurements = () => {
                 <HeroButton 
                   type="submit" 
                   size="lg" 
-                  className="w-full"
+                  className="w-full bg-gradient-warm text-white shadow-elegant transition-transform duration-300 hover:-translate-y-0.5"
                   disabled={!measurements.width || !measurements.height || !measurements.depth}
                 >
-                  Continuer vers le quiz de style
+                  Continuer vers la génération IA
                   <ArrowRight className="w-4 h-4" />
                 </HeroButton>
               </form>

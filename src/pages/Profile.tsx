@@ -186,9 +186,9 @@ const Profile: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-orange-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-hero flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 animate-spin rounded-full border-4 border-emerald-600 border-t-transparent mx-auto mb-4"></div>
+          <div className="w-12 h-12 animate-spin rounded-full border-4 border-[#20B2AA] border-t-transparent mx-auto mb-4"></div>
           <p className="text-slate-600">Chargement du profil...</p>
         </div>
       </div>
@@ -197,7 +197,7 @@ const Profile: React.FC = () => {
 
   if (!profile) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-orange-50">
+      <div className="min-h-screen bg-gradient-hero">
         <div className="container mx-auto px-4 py-12 text-center">
           <h1 className="text-2xl font-bold text-slate-700 mb-4">Profil non trouvé</h1>
           <p className="text-slate-600">Impossible de charger les informations du profil.</p>
@@ -207,14 +207,14 @@ const Profile: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-orange-50">
+    <div className="min-h-screen bg-gradient-hero">
       <div className="container mx-auto px-4 py-8">
         {/* Profile Header */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <div className="bg-gradient-card rounded-2xl shadow-soft p-6 mb-8">
           <div className="flex flex-col md:flex-row items-center gap-6">
-            <Avatar className="w-24 h-24 border-4 border-emerald-200">
+            <Avatar className="w-24 h-24 border-4 border-[#20B2AA]/30">
               <AvatarImage src={profile.avatar_url || ''} alt={profile.full_name} />
-              <AvatarFallback className="bg-gradient-to-br from-emerald-500 to-emerald-700 text-white text-2xl font-bold">
+              <AvatarFallback className="bg-gradient-to-br from-[#06363a] to-[#20B2AA] text-white text-2xl font-bold">
                 {profile.full_name ? profile.full_name.charAt(0).toUpperCase() : 'U'}
               </AvatarFallback>
             </Avatar>
@@ -225,8 +225,8 @@ const Profile: React.FC = () => {
                 <p className="text-slate-600 mb-3">{profile.bio}</p>
               )}
               <div className="flex items-center justify-center md:justify-start gap-4">
-                <div className="flex items-center gap-2 px-3 py-1 bg-emerald-50 rounded-full border border-emerald-200">
-                  <span className="text-sm font-medium text-emerald-700">{profile.credits} crédits</span>
+                <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-[#20B2AA]/30 bg-[#E6FAF7]">
+                  <span className="text-sm font-medium text-[#0f766e]">{profile.credits} crédits</span>
                 </div>
                 <HeroButton
                   variant={isEditing ? "ghost" : "outline"}
@@ -435,7 +435,7 @@ const Profile: React.FC = () => {
                       </div>
                       <CardContent className="p-4">
                         <h3 className="font-semibold text-slate-800 mb-1">{favorite.product_name}</h3>
-                        <p className="text-lg font-bold text-emerald-600 mb-2">{favorite.product_price}€</p>
+                        <p className="text-lg font-bold text-[#0f766e] mb-2">{favorite.product_price}€</p>
                         <p className="text-xs text-gray-500">
                           Ajouté le {new Date(favorite.added_at).toLocaleDateString('fr-FR')}
                         </p>
@@ -463,15 +463,15 @@ const Profile: React.FC = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="bg-gradient-to-r from-emerald-50 to-green-50 border border-emerald-200 rounded-lg p-6">
-                  <div className="flex items-center justify-between">
+                <div className="rounded-xl border border-white/10 bg-gradient-to-r from-[#031e22]/90 via-[#0b3a38]/85 to-[#0f4d48]/80 p-6 text-white">
+                  <div className="flex items-center justify-between gap-6">
                     <div>
-                      <h3 className="text-lg font-semibold text-emerald-800">Solde de crédits</h3>
-                      <p className="text-emerald-600">Utilisez vos crédits pour des designs personnalisés</p>
+                      <h3 className="text-lg font-semibold text-white/90">Solde de crédits</h3>
+                      <p className="text-white/70">Utilisez vos crédits pour des designs personnalisés</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-3xl font-bold text-emerald-700">{profile.credits}</p>
-                      <p className="text-sm text-emerald-600">crédits disponibles</p>
+                      <p className="text-3xl font-bold text-[#9de8e0]">{profile.credits}</p>
+                      <p className="text-sm text-white/70">crédits disponibles</p>
                     </div>
                   </div>
                 </div>
@@ -480,7 +480,7 @@ const Profile: React.FC = () => {
                   <Card>
                     <CardContent className="p-6 text-center">
                       <h4 className="font-semibold mb-2">Pack Starter</h4>
-                      <p className="text-2xl font-bold text-emerald-600 mb-2">10 crédits</p>
+                      <p className="text-2xl font-bold text-[#0f766e] mb-2">10 crédits</p>
                       <p className="text-sm text-gray-600 mb-4">29€</p>
                       <HeroButton size="sm" className="w-full">Acheter</HeroButton>
                     </CardContent>
@@ -489,7 +489,7 @@ const Profile: React.FC = () => {
                   <Card>
                     <CardContent className="p-6 text-center">
                       <h4 className="font-semibold mb-2">Pack Pro</h4>
-                      <p className="text-2xl font-bold text-emerald-600 mb-2">25 crédits</p>
+                      <p className="text-2xl font-bold text-[#0f766e] mb-2">25 crédits</p>
                       <p className="text-sm text-gray-600 mb-4">69€</p>
                       <HeroButton size="sm" className="w-full">Acheter</HeroButton>
                     </CardContent>
@@ -498,7 +498,7 @@ const Profile: React.FC = () => {
                   <Card>
                     <CardContent className="p-6 text-center">
                       <h4 className="font-semibold mb-2">Pack Premium</h4>
-                      <p className="text-2xl font-bold text-emerald-600 mb-2">50 crédits</p>
+                      <p className="text-2xl font-bold text-[#0f766e] mb-2">50 crédits</p>
                       <p className="text-sm text-gray-600 mb-4">129€</p>
                       <HeroButton size="sm" className="w-full">Acheter</HeroButton>
                     </CardContent>

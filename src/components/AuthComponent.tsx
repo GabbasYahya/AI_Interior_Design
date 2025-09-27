@@ -18,7 +18,11 @@ interface AuthFormData {
   fullName?: string;
 }
 
-export function AuthComponent() {
+interface AuthComponentProps {
+  defaultTab?: 'signin' | 'signup' | 'reset';
+}
+
+export function AuthComponent({ defaultTab = 'signin' }: AuthComponentProps) {
   const { user, profile, signOut, signInWithEmail, signUpWithEmail, resetPassword, loading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -32,7 +36,7 @@ export function AuthComponent() {
   
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [activeTab, setActiveTab] = useState<'signin' | 'signup' | 'reset'>('signin');
+  const [activeTab, setActiveTab] = useState<'signin' | 'signup' | 'reset'>(defaultTab);
   const [resetEmailSent, setResetEmailSent] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, User, Settings, LogOut, Home } from 'lucide-react';
+import { Menu, X, User, Settings, LogOut, Home, ShoppingCart } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import {
@@ -10,12 +10,29 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
+import { Button } from '../ui/button';
+import { Badge } from '../ui/badge';
 import { HeroButton } from '../ui/hero-button';
+import ECommerceService from '../../services/ECommerceService';
 
 const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
   const { user, profile, loading, signOut } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Initialize cart count
+    setCartCount(ECommerceService.getCartCount());
+
+    // Subscribe to cart changes
+    const unsubscribe = ECommerceService.onCartChange((items) => {
+      const count = items.reduce((total, item) => total + item.quantity, 0);
+      setCartCount(count);
+    });
+
+    return unsubscribe;
+  }, []);
 
   const handleSignOut = async () => {
     await signOut();
@@ -24,10 +41,10 @@ const Header: React.FC = () => {
 
   const navigation = [
     { name: 'Accueil', href: '/' },
-    { name: 'Dashboard', href: '/dashboard', authRequired: true },
-    { name: 'Products', href: '/products' },
-    { name: 'Measurements', href: '/measurements' },
-    { name: 'Style Quiz', href: '/style-quiz' },
+    { name: 'Tableau de bord', href: '/dashboard', authRequired: true },
+    { name: 'Catalogue', href: '/products' },
+    { name: 'Mesures', href: '/measurements' },
+    { name: 'Quiz de style', href: '/style-quiz' },
   ];
 
   const filteredNavigation = navigation.filter(item => 
@@ -35,16 +52,34 @@ const Header: React.FC = () => {
   );
 
   return (
-    <header className="relative bg-white/95 backdrop-blur-sm border-b border-white/20 shadow-lg z-50">
+    <header className="relative z-50 border-b border-[#111827] bg-[#050505]/95 text-white backdrop-blur-md shadow-elegant">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-orange-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">A</span>
+            <Link to="/" className="group flex items-center space-x-2">
+              <div className="relative">
+                <img 
+                  src="/logo.jpg" 
+                  alt="Adariz Logo" 
+                  className="h-10 w-10 object-contain transition-transform duration-300 group-hover:scale-110"
+                  onError={(e) => {
+                    // Fallback to gradient logo if image doesn't exist
+                    e.currentTarget.style.display = 'none';
+                    const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                    if (nextElement) {
+                      nextElement.style.display = 'flex';
+                    }
+                  }}
+                />
+                {/* Fallback gradient logo */}
+                <div className="hidden h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-[#20B2AA] to-[#0f766e] transition-transform duration-300 group-hover:scale-110">
+                  <span className="text-lg font-bold text-white">A</span>
+                </div>
               </div>
-              <span className="font-bold text-xl text-slate-700">Adariz</span>
+              <span className="font-sans text-xl font-semibold text-white transition-colors duration-300 group-hover:text-[#20B2AA]">
+                Adariz
+              </span>
             </Link>
           </div>
 
@@ -54,61 +89,78 @@ const Header: React.FC = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className="text-slate-600 hover:text-emerald-600 transition-colors duration-300 font-medium relative group"
+                className="relative font-medium text-white/70 transition-colors duration-300 hover:text-[#20B2AA]"
               >
                 {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-500 to-orange-500 transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-gradient-to-r from-[#20B2AA] to-[#0f766e] transition-all duration-300 group-hover:w-full"></span>
               </Link>
             ))}
           </nav>
 
           {/* User Actions */}
           <div className="flex items-center gap-4">
+            {/* Shopping Cart */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => navigate('/cart')}
+              className="relative text-white/80 hover:bg-white/10"
+            >
+              <ShoppingCart className="h-5 w-5 text-[#20B2AA]" />
+              {cartCount > 0 && (
+                <Badge 
+                  variant="destructive" 
+                  className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#20B2AA] p-0 text-xs text-black"
+                >
+                  {cartCount > 99 ? '99+' : cartCount}
+                </Badge>
+              )}
+            </Button>
             {loading ? (
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 animate-spin rounded-full border-2 border-emerald-600 border-t-transparent"></div>
-                <span className="text-sm text-slate-600">Chargement...</span>
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#20B2AA] border-t-transparent"></div>
+                <span className="text-sm text-white/70">Chargement...</span>
               </div>
             ) : user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="relative h-10 w-10 rounded-full hover:ring-2 hover:ring-emerald-200 transition-all duration-300">
-                    <Avatar className="h-10 w-10 border-2 border-white shadow-xl">
+                  <button className="relative h-10 w-10 rounded-full transition-all duration-300 hover:ring-2 hover:ring-[#20B2AA]/40">
+                    <Avatar className="h-10 w-10 border-2 border-[#1f2937] shadow-soft">
                       <AvatarImage src={profile?.avatar_url || ''} alt={profile?.full_name || user.email} />
-                      <AvatarFallback className="bg-gradient-to-br from-emerald-500 to-emerald-700 text-white font-semibold">
+                      <AvatarFallback className="bg-gradient-to-br from-[#20B2AA] to-[#0f766e] font-semibold text-white">
                         {profile?.full_name ? profile.full_name.charAt(0).toUpperCase() : user.email?.charAt(0).toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 bg-white/95 backdrop-blur-sm border-white/30" align="end" forceMount>
+                <DropdownMenuContent className="w-56 border border-[#1f2933] bg-[#040509]/95 text-white backdrop-blur-md" align="end" forceMount>
                   <div className="flex items-center justify-start gap-2 p-2">
                     <div className="flex flex-col space-y-1 leading-none">
                       {profile?.full_name && (
-                        <p className="font-medium text-slate-700">{profile.full_name}</p>
+                        <p className="font-medium text-white">{profile.full_name}</p>
                       )}
-                      <p className="w-[200px] truncate text-sm text-slate-500">
+                      <p className="w-[200px] truncate text-sm text-white/60">
                         {user.email}
                       </p>
                     </div>
                   </div>
-                  <DropdownMenuSeparator className="bg-white/20" />
-                  <DropdownMenuItem onClick={() => navigate('/dashboard')} className="hover:bg-emerald-50">
-                    <Home className="mr-2 h-4 w-4 text-emerald-600" />
-                    <span className="text-slate-700">Dashboard</span>
+                  <DropdownMenuSeparator className="bg-white/10" />
+                  <DropdownMenuItem onClick={() => navigate('/dashboard')} className="hover:bg-white/10">
+                    <Home className="mr-2 h-4 w-4 text-[#20B2AA]" />
+                    <span className="text-white">Tableau de bord</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate('/profile')} className="hover:bg-emerald-50">
-                    <User className="mr-2 h-4 w-4 text-emerald-600" />
-                    <span className="text-slate-700">Profile</span>
+                  <DropdownMenuItem onClick={() => navigate('/profile')} className="hover:bg-white/10">
+                    <User className="mr-2 h-4 w-4 text-[#20B2AA]" />
+                    <span className="text-white">Profil</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate('/about')} className="hover:bg-emerald-50">
-                    <Settings className="mr-2 h-4 w-4 text-emerald-600" />
-                    <span className="text-slate-700">About</span>
+                  <DropdownMenuItem onClick={() => navigate('/about')} className="hover:bg-white/10">
+                    <Settings className="mr-2 h-4 w-4 text-[#20B2AA]" />
+                    <span className="text-white">À propos</span>
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator className="bg-white/20" />
+                  <DropdownMenuSeparator className="bg-white/10" />
                   <DropdownMenuItem onClick={handleSignOut} className="hover:bg-red-50">
                     <LogOut className="mr-2 h-4 w-4 text-red-500" />
-                    <span className="text-red-600">Sign out</span>
+                    <span className="text-red-400">Se déconnecter</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -118,23 +170,23 @@ const Header: React.FC = () => {
                   variant="ghost" 
                   size="sm" 
                   onClick={() => navigate('/login')} 
-                  className="text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 transition-all duration-300"
+                  className="text-white/80 hover:bg-white/10 hover:text-white transition-all duration-300"
                 >
-                  Sign in
+                  Connexion
                 </HeroButton>
                 <HeroButton 
                   size="sm" 
                   onClick={() => navigate('/register')} 
-                  className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-medium px-6 py-3 rounded-lg transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg"
+                  className="bg-gradient-warm px-6 py-3 font-medium text-white transition-all duration-300 hover:-translate-y-0.5"
                 >
-                  Get started
+                  Créer un compte
                 </HeroButton>
               </div>
             )}
 
             {/* Mobile menu button */}
             <button
-              className="md:hidden p-2 text-slate-600 hover:text-emerald-600 transition-colors"
+              className="p-2 text-white/70 transition-colors hover:text-[#20B2AA] md:hidden"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -145,13 +197,13 @@ const Header: React.FC = () => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white/95 backdrop-blur-sm border-t border-white/20">
+        <div className="md:hidden border-t border-[#111827] bg-[#050505]/95 text-white backdrop-blur-md">
           <div className="px-4 py-4 space-y-2">
             {filteredNavigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
-                className="block px-3 py-2 rounded-lg text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 transition-colors font-medium"
+                className="block rounded-lg px-3 py-2 text-white/70 transition-colors hover:bg-white/10 hover:text-white font-medium"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {item.name}
@@ -162,17 +214,17 @@ const Header: React.FC = () => {
               <>
                 <Link
                   to="/login"
-                  className="block px-3 py-2 rounded-lg text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 transition-colors font-medium"
+                  className="block rounded-lg px-3 py-2 text-white/70 transition-colors hover:bg-white/10 hover:text-white font-medium"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Sign in
+                  Connexion
                 </Link>
                 <Link
                   to="/register"
-                  className="block px-3 py-2 rounded-lg bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-medium hover:from-emerald-600 hover:to-emerald-700 transition-all duration-300"
+                  className="block rounded-lg bg-gradient-warm px-3 py-2 font-medium text-white transition-all duration-300"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Get started
+                  Créer un compte
                 </Link>
               </>
             )}
@@ -181,18 +233,18 @@ const Header: React.FC = () => {
               <>
                 <Link
                   to="/profile"
-                  className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="flex items-center gap-3 rounded-lg px-3 py-2 transition-colors hover:bg-white/10"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <User className="w-5 h-5 text-emerald-600" />
-                  <span className="font-medium text-slate-700">Profil</span>
+                  <User className="w-5 h-5 text-[#20B2AA]" />
+                  <span className="font-medium text-white">Profil</span>
                 </Link>
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
                     handleSignOut();
                   }}
-                  className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors w-full text-left text-red-600"
+                  className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-red-400 transition-colors hover:bg-red-500/10"
                 >
                   <LogOut className="w-5 h-5" />
                   <span className="font-medium">Se déconnecter</span>
